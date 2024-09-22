@@ -1,16 +1,11 @@
-import localFont from "next/font/local";
-import "./globals.css";
+import { Roboto } from "next/font/google";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import "./globals.css";
+import Header from "@/components/layout/Header";
+import NextAuthProvider from "@/providers/NextAuthProvider";
+import ReduxProvider from "../redux/ReduxProvider";
+
+const roboto = Roboto({ subsets: ["latin"], weight: ["400", "500", "700"] });
 
 export const metadata = {
   title: "Create Next App",
@@ -20,10 +15,15 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={roboto.className}>
+        <ReduxProvider>
+          <NextAuthProvider>
+            <main className="p-4 max-w-4xl mx-auto">
+              <Header />
+              {children}
+            </main>
+          </NextAuthProvider>
+        </ReduxProvider>
       </body>
     </html>
   );
